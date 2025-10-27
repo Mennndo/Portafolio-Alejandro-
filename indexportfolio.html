@@ -1,0 +1,604 @@
+<<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi Portafolio</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;700&family=Libre+Baskerville:wght@400;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'EB Garamond', serif;
+      background: linear-gradient(180deg, #f3e7dd 0%, #f0e0d0 100%);
+      color: #1a1a1a;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+  
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 35px 100px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(243, 231, 221, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      border-bottom: 1px solid #d8cbb9;
+    }
+
+    .logo {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #1a1a1a;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 60px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #1a1a1a;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      transition: all 0.3s;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: #1a1a1a;
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover::after { width: 100%; }
+
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 150px 100px 100px;
+      background: #f3e7dd;
+    }
+
+    .hero-content {
+      max-width: 1000px;
+      text-align: center;
+      animation: fadeIn 1.5s ease;
+    }
+
+    .profile-img {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 2px solid #1a1a1a;
+      margin: 0 auto 60px;
+      display: block;
+      object-fit: cover;
+      filter: grayscale(100%) contrast(1.1);
+      transition: all 0.5s ease;
+    }
+
+    .profile-img:hover {
+      filter: grayscale(0%) contrast(1.05);
+      transform: scale(1.05);
+    }
+
+    .hero h1 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 5rem;
+      margin-bottom: 35px;
+      color: #1a1a1a;
+      font-weight: 700;
+      letter-spacing: -2px;
+      line-height: 1.1;
+    }
+
+    .divider {
+      width: 100px;
+      height: 1px;
+      background: #1a1a1a;
+      margin: 35px auto;
+    }
+
+    .hero p {
+      font-size: 1.5rem;
+      margin-bottom: 60px;
+      color: #4a4a4a;
+      font-weight: 400;
+      letter-spacing: 1px;
+    }
+
+    .cta-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .cta-button {
+      padding: 20px 50px;
+      background: transparent;
+      color: #1a1a1a;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 15px;
+      transition: all 0.4s;
+      border: 2px solid #1a1a1a;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .cta-button:hover {
+      background: #1a1a1a;
+      color: #f3e7dd;
+    }
+
+    
+    .about {
+      padding: 100px 100px;
+      background: linear-gradient(180deg, #f5e8d9 0%, #f3e7dd 100%);
+      background-image: repeating-linear-gradient(
+        45deg,
+        rgba(26, 26, 26, 0.03) 0px,
+        rgba(26, 26, 26, 0.03) 1px,
+        transparent 1px,
+        transparent 80px
+      );
+      display: flex;
+      align-items: center;
+    }
+
+    .about-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .about-image {
+      width: 100%;
+      height: 600px;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      filter: grayscale(100%) contrast(1.1);
+      transition: all 0.6s ease;
+    }
+
+    .about-image:hover {
+      filter: grayscale(0%) contrast(1.05);
+      transform: scale(1.03);
+    }
+
+    .about-text {
+      animation: fadeUp 1.2s ease forwards;
+      opacity: 0;
+    }
+
+    .about-text.visible { opacity: 1; transform: translateY(0); }
+
+    .about-text h2 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 4rem;
+      margin-bottom: 50px;
+      color: #1a1a1a;
+    }
+
+    .about-text p {
+      font-size: 1.4rem;
+      line-height: 2.1;
+      color: #2a2a2a;
+      margin-bottom: 35px;
+      text-align: justify;
+    }
+
+   
+    .projects {
+      padding: 150px 100px;
+      background: #f3e7dd;
+    }
+
+    .projects h2 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 3.5rem;
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 70px;
+      max-width: 70%;
+      margin: 0 auto;
+    }
+
+    .project-card {
+      background: #f8f2eb;
+      overflow: hidden;
+      transition: all 0.4s;
+      cursor: pointer;
+      border: 1px solid #1a1a1a;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .project-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: all 0.8s ease;
+    }
+
+    .project-card:hover { transform: translateY(-8px); }
+
+    .project-image {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      filter: grayscale(100%) contrast(1.1);
+      transition: all 0.6s ease;
+    }
+
+    .project-card:hover .project-image {
+      filter: grayscale(0%) contrast(1.05);
+      transform: scale(1.05);
+    }
+
+    .project-content { padding: 45px; }
+
+    .project-content h3 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 2rem;
+      margin-bottom: 22px;
+      color: #1a1a1a;
+    }
+
+   
+    .contact {
+      padding: 200px 100px;
+      background: linear-gradient(180deg, #f5e8d9 0%, #f3e7dd 100%);
+      background-image: repeating-linear-gradient(
+        45deg,
+        rgba(26, 26, 26, 0.03) 0px,
+        rgba(26, 26, 26, 0.03) 1px,
+        transparent 1px,
+        transparent 80px
+      );
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .contact h2 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 3.5rem;
+      color: #1a1a1a;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    form {
+      max-width: 700px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    input, textarea {
+      padding: 18px;
+      border: 1px solid #1a1a1a;
+      background: #f9f5f1;
+      font-family: 'EB Garamond', serif;
+      font-size: 1.1rem;
+      resize: none;
+    }
+
+    button {
+      background: #1a1a1a;
+      color: #f3e7dd;
+      padding: 16px;
+      border: none;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    button:hover { background: #3b2f25; }
+
+
+    .project-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(243, 231, 221, 0.98);
+      display: none;
+      opacity: 0;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.4s ease;
+      z-index: 2000;
+    }
+
+    .project-modal.active { display: flex; opacity: 1; }
+
+    .modal-content {
+      width: 90%;
+      max-width: 1000px;
+      background: #f3e7dd;
+      border: 1px solid #1a1a1a;
+      padding: 50px;
+      border-radius: 8px;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 30px;
+      right: 50px;
+      font-size: 40px;
+      color: #1a1a1a;
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    .modal-media {
+      width: 100%;
+      max-height: 70vh;
+      border: 1px solid #1a1a1a;
+      margin-top: 30px;
+    }
+
+    @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+    @keyframes fadeUp { from {opacity:0;transform:translateY(40px);} to {opacity:1;transform:translateY(0);} }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">Alejandro Mendoza</div>
+    <ul class="nav-links">
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#sobre-mi">Sobre Mí</a></li>
+      <li><a href="#proyectos">Proyectos</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero" id="inicio">
+    <div class="hero-content">
+      
+      <img src="Alejito lindo.jpeg" class="profile-img" alt="Perfil" />
+      <h1>Alejandro Mendoza</h1>
+      <div class="divider"></div>
+      <p>Diseñador grafico / Productor Multimedia</p>
+      <div class="cta-buttons">
+        <a href="#sobre-mi" class="cta-button">Sobre Mi</a>
+        <a href="#proyectos" class="cta-button">Ver Trabajo</a>
+        <a href="#contacto" class="cta-button">Contacto</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="sobre-mi">
+    <div class="about-content">
+   
+      <img src="sobre-mi.jpg" class="about-image" alt="Sobre mí" />
+      <div class="about-text">
+        <h2>Sobre Mí</h2>
+        <div class="divider" style="margin: 30px 0;"></div>
+        <p>Aprendiz del SENA con formación técnica en Medios Gráficos Visuales y
+actualmente en Producción Multimedia. Tengo conocimientos en diseño
+gráfico y edición digital, con manejo avanzado de Illustrator, Photoshop y
+Premiere, y un nivel básico-intermedio en animación digital utilizando
+Adobe Animate.
+Me considero una persona responsable, puntual, con buena capacidad para
+el trabajo en equipo y buena disposición para aprender. Me adapto con
+rapidez a nuevos entornos y tareas, y siempre busco aportar desde lo
+técnico y lo creativo. Estoy en búsqueda de una empresa donde pueda
+desarrollar mi etapa productiva, aplicar lo aprendido y adquirir experiencia
+profesional real.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="projects" id="proyectos">
+    <h2>Proyectos</h2>
+    <div class="projects-grid">
+      
+      
+      <div class="project-card" onclick="openModal('modal1')">
+        <img src="Portada Picht.jpg" class="project-image" alt="PITCH">
+        <div class="project-content">
+          <h3>PITCH</h3>
+          <p>Silencio Culpbale</p>
+        </div>
+      </div>
+
+      <div class="project-card" onclick="openModal('modal2')">
+        <img src="portada filminuto.JPG" class="project-image" alt="Donde Muere el amor">
+        <div class="project-content">
+          <h3>Filminuto</h3>
+          <p>Donde muere el amor</p>
+        </div>
+      </div>
+
+      <div class="project-card" onclick="openModal('modal3')">
+        <img src="Portada Mind MOtion.png " class="project-image" alt="Manual MIND MOTION">
+        <div class="project-content">
+          <h3>Manual de identidad corporativa MIND MOTION</h3>
+          <p>Manual de marca</p>
+        </div>
+      </div>
+
+      
+      <div class="project-card" onclick="openModal('modal4')">
+        <img src="Portada Grano de oro.png" class="project-image" alt="Manual Grano de oro">
+        <div class="project-content">
+          <h3>Manual de identidad corporativa Grano de oro</h3>
+          <p>Manual de marca</p>
+        </div>
+      </div>
+
+      
+      <div class="project-card" onclick="openModal('modal5')">
+        <img src="portada fotografia.jpg" class="project-image" alt="Proyecto 5">
+        <div class="project-content">
+          <h3>Fotografia</h3>
+          <p>Serie Fotografica</p>
+        </div>
+      </div>
+
+      <!-- PROYECTO 6 -->
+      <div class="project-card" onclick="openModal('modal6')">
+        <img src="POrtada Personajes.pdf" class="project-image" alt="Proyecto 6">
+        <div class="project-content">
+          <h3>Diseño de Personaje</h3>
+          <p>Ilustracion y diseño de Personaje</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="contact" id="contacto">
+    <h2>Contacto</h2>
+    <div class="divider"></div>
+    <form onsubmit="handleSubmit(event)">
+      <input type="text" name="nombre" placeholder="Tu nombre" required />
+      <input type="email" name="email" placeholder="Tu correo" required />
+      <textarea name="mensaje" placeholder="Tu mensaje" rows="6" required></textarea>
+      <button type="submit">Enviar mensaje</button>
+    </form>
+  </section>
+
+ 
+  
+  
+  <div class="project-modal" id="modal1">
+    <button class="modal-close" onclick="closeModal('modal1')">&times;</button>
+    <div class="modal-content">
+      <h2>Silencio Culpbale</h2>
+      <p>PITCH</p>
+     
+      <video class="modal-media" controls preload="auto">
+        <source src="PIS.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+
+  <div class="project-modal" id="modal2">
+    <button class="modal-close" onclick="closeModal('modal2')">&times;</button>
+    <div class="modal-content">
+      <h2>Donde Muere el amor</h2>
+      <p>Filminuto</p>
+    
+      <video class="modal-media" controls preload="auto">
+        <source src="DONDE.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+ 
+  <div class="project-modal" id="modal3">
+    <button class="modal-close" onclick="closeModal('modal3')">&times;</button>
+    <div class="modal-content">
+      <h2>Manual de identidad corporativa MIND MOTION</h2>
+      <p>Manual de marca</p>
+      
+      <iframe class="modal-media" src="Mind Motion Manual de Identidad.pdf"></iframe>
+    </div>
+  </div>
+
+ 
+  <div class="project-modal" id="modal4">
+    <button class="modal-close" onclick="closeModal('modal4')">&times;</button>
+    <div class="modal-content">
+      <h2>Manual de identidad corporativa Grano de oro</h2>
+      <p>Manual de marca</p>
+      
+      <iframe class="modal-media" src="Grano d eOro manual.pdf"></iframe>
+    </div>
+  </div>
+
+
+  <div class="project-modal" id="modal5">
+    <button class="modal-close" onclick="closeModal('modal5')">&times;</button>
+    <div class="modal-content">
+      <h2>Fotografia</h2>
+      <p>Serie Fotografica</p>
+     
+      <iframe class="modal-media" src="Fotografia.pdf"></iframe>
+    </div>
+  </div>
+
+ 
+  <div class="project-modal" id="modal6">
+    <button class="modal-close" onclick="closeModal('modal6')">&times;</button>
+    <div class="modal-content">
+      <h2>Diseño de Personaje</h2>
+      <p>Ilustracion y diseño de Personaje</p>
+      
+      <iframe class="modal-media" src="Personjae LEGO Alejo.pdf"></iframe>
+    </div>
+  </div>
+
+  <script>
+    function openModal(modalId) {
+      document.getElementById(modalId).classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.remove('active');
+      document.body.style.overflow = 'auto';
+      document.getElementById('proyectos').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.project-card, .about-text').forEach(el => observer.observe(el));
+
+    function handleSubmit(e) {
+      e.preventDefault();
+      alert("¡Mensaje enviado! Gracias por contactarme.");
+      e.target.reset();
+    }
+  </script>
+</body>
+</html>
